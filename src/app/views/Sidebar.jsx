@@ -24,7 +24,7 @@ const Sidebar = () => {
   if (!categories) return <div>Loading</div>;
 
   return (
-    <div className="absolute left-0 w-[12rem]   p-4  border-r">
+    <div className="fixed left-20 h-[90vh] w-[12rem]   p-4  border-r hidden sm:block">
       <h4 className="font-semibold pb-3">Categories</h4>
       <div className="mb-2">
         <label className="flex items-center space-x-2 text-black">

@@ -7,7 +7,7 @@ const Product = async () => {
   const products = await response.json();
 
   return (
-    <div className="grid sm:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
       {products.data.map((product) => {
         return <Card key={product._id} product={product} />;
       })}

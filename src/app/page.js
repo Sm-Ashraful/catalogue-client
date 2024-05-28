@@ -4,9 +4,9 @@ import Product from "./views/Product";
 
 export default function Home() {
   return (
-    <main className="relative mx-20">
+    <main className="relative mx-20 mt-[80px]">
       <Sidebar />
-      <div className="pl-[13rem] pt-5">
+      <div className="sm:pl-[13rem] pt-5">
         <SearchBox />
         <Product />
       </div>
