@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { API } from "../../../urlConfig";
 
 const Sidebar = () => {
   const [categories, setCategories] = useState([]);
@@ -7,9 +8,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await fetch(
-        "https://catalogue-dusky.vercel.app/api/categories"
-      );
+      const response = await fetch(`${API}/categories`);
       const data = await response.json();
       console.log("Data: ", data);
       setCategories(data.data);

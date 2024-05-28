@@ -4,12 +4,12 @@ import React, { useState } from "react";
 const SearchBox = () => {
   const [searchQuery, setSearchQuery] = useState("");
   return (
-    <div>
+    <div className="max-w-md mx-auto">
       <div className="relative mb-4">
         <input
           type="text"
           placeholder="Search..."
-          className="w-full p-2 pl-4 pr-10 rounded bg-white text-black"
+          className="w-full p-2 pl-4 pr-10 rounded bg-white text-black border border-[#f69a21] focus:outline-none focus:border-green-400"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
