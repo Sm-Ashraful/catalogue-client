@@ -4,16 +4,16 @@ import React, { useState } from "react";
 const SearchBox = () => {
   const [searchQuery, setSearchQuery] = useState("");
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-full mx-auto">
       <div className="relative mb-4">
         <input
           type="text"
           placeholder="Search..."
-          className="w-full p-2 pl-4 pr-10 rounded bg-white text-black border border-[#f69a21] focus:outline-none focus:border-green-400"
+          className="w-full p-2 pl-4 pr-10 rounded bg-black/10 text-black border  focus:outline-none focus:border-[#f69a21]"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <div className="absolute right-2 top-2.5 text-gray-500">
+        <div className="absolute right-2 top-3 text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1em"

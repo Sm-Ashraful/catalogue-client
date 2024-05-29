@@ -18,6 +18,8 @@ const VariantProduct = () => {
   const decodedName = decodeURIComponent(pathname);
   const productName = decodedName.split("/")[2];
 
+  console.log("Product id: ", categoryId);
+
   useEffect(() => {
     async function Fetcher() {
       const response = await fetch(`${API}/variant?productId=${productId}`);

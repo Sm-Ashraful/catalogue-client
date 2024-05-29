@@ -2,15 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { API } from "../../../urlConfig";
 
-const Sidebar = () => {
+const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(`${API}/categories`);
       const data = await response.json();
-      console.log("Data: ", data);
+
       setCategories(data.data);
     };
 
@@ -31,10 +30,10 @@ const Sidebar = () => {
           <input
             type="radio"
             name="category"
-            value={"all"}
-            checked={selectedCategory === "all"}
-            onChange={() => handleCategoryChange("all")}
-            className="form-radio text-blue-600"
+            value={null}
+            checked={selectedCategory === null}
+            onChange={() => handleCategoryChange(null)}
+            className="form-radio text-[#c786ba]"
           />
           <span className="capitalize font-medium">All Categories</span>
         </label>
@@ -45,9 +44,9 @@ const Sidebar = () => {
             <input
               type="radio"
               name="category"
-              value={category.name}
-              checked={selectedCategory === category.name}
-              onChange={() => handleCategoryChange(category.name)}
+              value={category._id}
+              checked={selectedCategory === category._id}
+              onChange={() => handleCategoryChange(category._id)}
               className="form-radio text-blue-600"
             />
             <span className="capitalize font-medium">{category.name}</span>
