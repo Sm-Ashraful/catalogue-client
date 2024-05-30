@@ -2,11 +2,20 @@ import Image from "next/image";
 import React from "react";
 
 const VariantCard = ({ variant }) => {
-  const stock = variant.stock; // "10 cases (360 boxes)"
-  const [cases, boxes] = stock.split(" ");
+  const stock = variant.stock; // e.g., "10 cases (360 boxes)" or "00"
 
-  const casesPart = `${cases} cases`;
-  const boxesPart = stock.match(/\(([^)]+)\)/)[0];
+  let casesPart = "N/A";
+  let boxesPart = "N/A";
+
+  if (stock && stock.trim() !== "0" && stock.trim() !== "00") {
+    const [cases] = stock.split(" ");
+    casesPart = `${cases} cases`;
+
+    const boxesMatch = stock.match(/\(([^)]+)\)/);
+    if (boxesMatch) {
+      boxesPart = `${boxesMatch[1]}`; // Extract the content inside the parentheses
+    }
+  }
   return (
     <div className="my-5 bg-slate-200 p-5 border border-[#f69a21] rounded-lg xl:grid grid-cols-2 gap-3">
       <div className="relative flex flex-col items-center">
