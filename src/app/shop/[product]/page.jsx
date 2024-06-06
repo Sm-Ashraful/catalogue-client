@@ -1,11 +1,11 @@
 "use client";
-import SearchBox from "@/components/SearchBox";
-import { API } from "../../../../urlConfig";
-import VariantCard from "@/components/VariantCard";
-import BreadCrumb from "@/components/BreadCrumb";
+
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import SearchBox from "../../../components/SearchBox";
+import VariantCard from "../../../components/VariantCard";
+import { API } from "../../../../urlConfig";
 
 const VariantProduct = () => {
   const [productVariants, setProductVariants] = useState(null);

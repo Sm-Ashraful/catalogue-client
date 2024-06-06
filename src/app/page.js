@@ -1,9 +1,10 @@
 "use client";
-import SearchBox from "@/components/SearchBox";
+
 import Sidebar from "./views/Sidebar";
 import Product from "./views/Product";
 import { useEffect, useState } from "react";
 import { API } from "../../urlConfig";
+import SearchBox from "../components/SearchBox";
 
 export default function Home() {
   const [products, setProducts] = useState(null);
@@ -45,6 +46,7 @@ export default function Home() {
             `${API}/product/category/${selectedCategory}`
           );
           const data = await response.json();
+
           setProducts(data.data);
         } catch (error) {
           console.error("Error fetching products:", error);

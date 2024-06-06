@@ -1,6 +1,6 @@
 import React from "react";
 import { API } from "../../../urlConfig";
-import Card from "@/components/Card";
+import Card from "../../components/Card";
 
 const Product = (products) => {
   console.log("PRoducts; ", products);

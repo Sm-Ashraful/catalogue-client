@@ -33,15 +33,28 @@ const VariantCard = ({ variant }) => {
           <p>{variant.productId}</p>
         </div>
         {variant?.customProperties &&
-          Object.entries(variant.customProperties).map(([key, value], idx) => (
-            <div
-              className="py-2 hover:bg-slate-300 w-full flex justify-between px-4"
-              key={idx}
-            >
-              <p className="font-bold">{key}:</p>
-              <p>{value}</p>
-            </div>
-          ))}
+          (Array.isArray(variant.customProperties)
+            ? variant.customProperties.map(({ key, value }, idx) => (
+                <div
+                  className="py-2 hover:bg-slate-300 w-full flex justify-between px-4"
+                  key={idx}
+                >
+                  <p className="font-bold">{key}:</p>
+                  <p>{value}</p>
+                </div>
+              ))
+            : Object.entries(variant.customProperties).map(
+                ([key, value], idx) => (
+                  <div
+                    className="py-2 hover:bg-slate-300 w-full flex justify-between px-4"
+                    key={idx}
+                  >
+                    <p className="font-bold">{key}:</p>
+                    <p>{value}</p>
+                  </div>
+                )
+              ))}
+
         <div className="py-2 hover:bg-slate-300 w-full flex justify-between px-4">
           <p className="font-bold">Unit Per Box</p>
           <p>{variant.unitsPerBox} units</p>

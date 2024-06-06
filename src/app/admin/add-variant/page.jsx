@@ -8,6 +8,7 @@ const AddVariant = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [boxPerCase, setBoxPerCase] = useState("");
   const [unitsPerBox, setUnitsPerBox] = useState("");
+  const [productImage, setProductImage] = useState(null);
   const [stock, setStock] = useState("");
   const [customProperties, setCustomProperties] = useState([
     { key: "", value: "" },
@@ -43,22 +44,24 @@ const AddVariant = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      product: selectedProduct ? selectedProduct.value : null,
-      boxPerCase: parseInt(boxPerCase),
-      unitsPerBox: parseInt(unitsPerBox),
-      stock: parseInt(stock),
-      customProperties: customProperties.filter(
-        (prop) => prop.key && prop.value
-      ),
-    };
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append("product", selectedProduct ? selectedProduct.value : null);
+    formData.append("boxPerCase", parseInt(boxPerCase));
+    formData.append("unitsPerBox", parseInt(unitsPerBox));
+    formData.append("stock", parseInt(stock));
+    formData.append("image", productImage);
+
+    customProperties
+      .filter((prop) => prop.key && prop.value)
+      .forEach((prop, index) => {
+        formData.append(`customProperties[${index}][key]`, prop.key);
+        formData.append(`customProperties[${index}][value]`, prop.value);
+      });
 
     const response = await fetch(`${API}/variant/add`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+      body: formData,
     });
 
     const result = await response.json();
@@ -81,7 +84,7 @@ const AddVariant = () => {
   }));
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center mb-5">
       <h1 className="text-center font-bold text-xl ">Add Variant</h1>
       <form onSubmit={handleSubmit} className="max-w-md flex flex-col gap-4">
         <div className="w-full flex flex-col">
@@ -125,38 +128,58 @@ const AddVariant = () => {
           />
         </div>
         <div className="w-full flex flex-col">
+          <label>Product Image:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setProductImage(e.target.files[0])}
+            required
+            className="border py-2 "
+          />
+        </div>
+        <div className="w-full flex flex-col">
           <label>Custom Properties:</label>
           {customProperties.map((property, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                name="key"
-                placeholder="Property Key"
-                value={property.key}
-                className="border py-2 px-4"
-                onChange={(event) => handleCustomPropertyChange(index, event)}
-              />
-              <input
-                type="text"
-                name="value"
-                placeholder="Property Value"
-                value={property.value}
-                className="border py-2 px-4"
-                onChange={(event) => handleCustomPropertyChange(index, event)}
-              />
+            <div key={index} className="w-full">
+              <div className="flex gap-5 w-full">
+                <input
+                  type="text"
+                  name="key"
+                  placeholder="Property Key"
+                  value={property.key}
+                  className="border py-2 px-4 w-1/2"
+                  onChange={(event) => handleCustomPropertyChange(index, event)}
+                />
+                <input
+                  type="text"
+                  name="value"
+                  placeholder="Property Value"
+                  value={property.value}
+                  className="border py-2 px-4 w-1/2"
+                  onChange={(event) => handleCustomPropertyChange(index, event)}
+                />
+              </div>
+
               <button
                 type="button"
                 onClick={() => handleRemoveCustomProperty(index)}
+                className="text-red-400 px-2 py-1 mt-2 underline"
               >
                 Remove
               </button>
             </div>
           ))}
-          <button type="button" onClick={handleAddCustomProperty}>
-            Add Property
+          <button
+            type="button"
+            onClick={handleAddCustomProperty}
+            className="bg-blue-400 px-2 py-1 w-fit mt-4"
+          >
+            Add New Property
           </button>
         </div>
-        <button type="submit">Add Product</button>
+        <button type="submit" className="bg-amber-500 py-1.5 text-white">
+          Add Product
+        </button>
       </form>
     </div>
   );

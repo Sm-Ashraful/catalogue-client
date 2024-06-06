@@ -1,15 +1,45 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { API } from "../../urlConfig";
+
+// Replace with your actual API URL
 
 const SearchBox = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState({
+    products: [],
+    categories: [],
+  });
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setSearchResults({ products: [], categories: [] });
+      return;
+    }
+
+    const fetchSearchResults = async () => {
+      try {
+        const response = await fetch(
+          `${API}/product/search?query=${searchQuery}`
+        );
+        const data = await response.json();
+        console.log("Search data: ", data);
+        setSearchResults(data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    };
+
+    fetchSearchResults();
+  }, [searchQuery]);
+
   return (
     <div className="max-w-full mx-auto">
       <div className="relative mb-4">
         <input
           type="text"
           placeholder="Search..."
-          className="w-full p-2 pl-4 pr-10 rounded bg-black/10 text-black border  focus:outline-none focus:border-[#f69a21]"
+          className="w-full p-2 pl-4 pr-10 rounded bg-black/10 text-black border focus:outline-none focus:border-[#f69a21]"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -26,6 +56,28 @@ const SearchBox = () => {
             />
           </svg>
         </div>
+      </div>
+      <div className="w-full bg-white z-50h-[500px]">
+        {searchResults.products.length > 0 && (
+          <div>
+            <h2>Products</h2>
+            <ul>
+              {searchResults.products.map((product) => (
+                <li key={product._id}>{product.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {searchResults.categories.length > 0 && (
+          <div>
+            <h2>Categories</h2>
+            <ul>
+              {searchResults.categories.map((category) => (
+                <li key={category._id}>{category.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

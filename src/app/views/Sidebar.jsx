@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { API } from "../../../urlConfig";
+import { useRouter } from "next/navigation";
 
 const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
   const [categories, setCategories] = useState([]);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(`${API}/categories`);
@@ -16,8 +17,9 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
     fetchCategories();
   }, []);
 
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = (category, categoryName) => {
     setSelectedCategory(category);
+    router.push(`?category=${categoryName}`);
   };
 
   if (!categories) return <div>Loading</div>;
@@ -46,7 +48,7 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
               name="category"
               value={category._id}
               checked={selectedCategory === category._id}
-              onChange={() => handleCategoryChange(category._id)}
+              onChange={() => handleCategoryChange(category._id, category.name)}
               className="form-radio text-blue-600"
             />
             <span className="capitalize font-medium">{category.name}</span>
